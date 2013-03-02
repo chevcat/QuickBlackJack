@@ -2,7 +2,7 @@
 //  IntroLayer.h
 //  QuickBlackJack
 //
-//  Created by Kayden Bui on 3/2/13.
+//  Created by Kayden Bui on 2/28/13.
 //  Copyright Kayden Bui 2013. All rights reserved.
 //
 

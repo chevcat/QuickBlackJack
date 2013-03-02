@@ -2,7 +2,7 @@
 //  AppDelegate.m
 //  QuickBlackJack
 //
-//  Created by Kayden Bui on 3/2/13.
+//  Created by Kayden Bui on 2/28/13.
 //  Copyright Kayden Bui 2013. All rights reserved.
 //
 
@@ -77,7 +77,7 @@
 	director_.wantsFullScreenLayout = YES;
 	
 	// Display FSP and SPF
-	[director_ setDisplayStats:YES];
+	[director_ setDisplayStats:NO];
 	
 	// set FPS at 60
 	[director_ setAnimationInterval:1.0/60];
@@ -172,11 +172,4 @@
 	[[CCDirector sharedDirector] setNextDeltaTimeZero:YES];
 }
 
-- (void) dealloc
-{
-	[window_ release];
-	[navController_ release];
-	
-	[super dealloc];
-}
 @end
