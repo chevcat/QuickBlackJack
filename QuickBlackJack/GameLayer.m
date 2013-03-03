@@ -166,28 +166,25 @@
 - (void) drawCardToDealer {
     //add card from deck to player's hand and remove it from deck
     if (self.dealer) {
-        if ([self.dealer.cardHands count] < 5) {
-            
+        if ([self.dealer.cardHands count] < 8) {
+            //transfer card from deck to dealer's hand
             CardObject *card = [self.cardDeck lastObject];
-            NSInteger x = card.position.x;
-            NSInteger y = card.position.y * 3;
             [self.dealer.cardHands addObject:card];
             [self.cardDeck removeLastObject];
+            
+            //position of dealer's first card
+            CGFloat x = card.position.x;
+            CGFloat y = card.position.y * 3;
+            
             NSInteger count = [self.dealer.cardHands count];
-            
-            
             if (count == 1) {
                 card.position = ccp(x, y);
             }
             
             if (count > 1) {
-                for (int i = 1; i < count; i++) {
-                    NSInteger previousX = [[self.dealer.cardHands objectAtIndex:(count - 2)] position].x;
-                    if ([[self.dealer.cardHands objectAtIndex:i] position].x == previousX) {
+                    CGFloat previousX = [[self.dealer.cardHands objectAtIndex:(count - 2)] position].x;
                         previousX += card.sprite.contentSize.width * 1.1;
                         card.position = ccp(previousX, y);
-                    }
-                }
             }
             self.totalDealerPointsLabel.string = [NSString stringWithFormat:@"%d", self.dealer.totalPoints];
             [self.spriteBatchNode addChild:card.sprite];
@@ -206,8 +203,10 @@
     if (!self.dealer.turnFinished) {
         if (self.dealer.totalPoints < 22) {
             int probability = arc4random() % 100;
+            
             BOOL a = (probability < 20) && (probability >=10);
             BOOL b = probability < 3;
+            
             if (self.dealer.totalPoints == 17) {
                 if (a == YES) {
                     [self drawCardToDealer];
@@ -234,25 +233,28 @@
         if (self.player) {
             
             NSInteger cardCount = [self.player.cardHands count];
-
+            
             if ((cardCount < 8) && !(self.player.busted) && !(self.player.turnFinished) ) {
-                
+                //transfer card from deck to player's hand
                 CardObject *card = [self.cardDeck lastObject];
                 [self.player.cardHands addObject:card];
                 [self.cardDeck removeLastObject];
+                
                 NSInteger count = [self.player.cardHands count];
                 
-                //arrange cards
-                for (int i = 0; i < count; i++) {
-                    if (i == 0) {
-                        card.position = ccp(card.position.x, card.position.y);
-                    } else {
-                        CGFloat x = [[self.player.cardHands objectAtIndex:(i - 1)] position].x;
-                        if (card.position.x == x) {
-                            card.position = ccp(card.position.x + card.sprite.contentSize.width * 1.1, card.position.y);
-                        }
-                    }
+                CGFloat x = card.position.x;
+                CGFloat y = card.position.y;
+                
+                if (count == 1) {
+                    card.position = ccp(x, y);
                 }
+                
+                if (count > 1) {
+                    CGFloat previousX = [[self.player.cardHands objectAtIndex:(count - 2)] position].x;
+                    card.position = ccp(previousX + card.sprite.contentSize.width * 1.1, y);
+                }
+                //arrange cards in player's hand
+                
                 
                 //self.player.totalPoints += card.cardValue;
                 self.totalPointsLabel.string = [NSString stringWithFormat:@"%d", self.player.totalPoints];
@@ -262,9 +264,7 @@
                     self.player.busted = YES;
                     [self performSelector:@selector(dealerTurn:) withObject:nil];
                 }
-                int cardSpriteTag = 99;
-                
-                [self.spriteBatchNode addChild:card.sprite z:0 tag:cardSpriteTag];
+                [self.spriteBatchNode addChild:card.sprite];
             }
         }
     }
