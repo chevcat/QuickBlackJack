@@ -24,6 +24,7 @@
 @property (nonatomic, strong) Dealer *dealer;
 
 @property (nonatomic, strong) CCLabelTTF *totalPointsLabel;
+@property (nonatomic, strong) CCLabelTTF *totalDealerPointsLabel;
 @property (nonatomic, strong) CCLabelTTF *gameStatusLabel;
 
 

@@ -18,6 +18,7 @@
 @synthesize player = _player;
 @synthesize dealer = _dealer;
 @synthesize totalPointsLabel = _totalPointsLabel;
+@synthesize totalDealerPointsLabel = _totalDealerPointsLabel;
 @synthesize gameStatusLabel = _gameStatusLabel;
 + (CCScene *) scene {
     CCScene *scene = [CCScene node];
@@ -61,6 +62,15 @@
                                       hAlignment:UITextAlignmentCenter];
         self.totalPointsLabel.position = ccp(self.totalPointsLabel.contentSize.width / 2, size.height / 2 - (self.totalPointsLabel.contentSize.width / 2) * 0.7);
         [self addChild:self.totalPointsLabel];
+        
+        //create totalDealerPoints label
+        self.totalDealerPointsLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%d", self.dealer.totalPoints]
+                                                   fontName:@"Arial"
+                                                   fontSize:20
+                                                 dimensions:CGSizeMake(40, 40)
+                                                 hAlignment:UITextAlignmentCenter];
+        self.totalDealerPointsLabel.position = ccp(size.width - self.totalDealerPointsLabel.contentSize.width / 2, size.height / 2 - (self.totalDealerPointsLabel.contentSize.width / 2) * 0.7);
+        [self addChild:self.totalDealerPointsLabel];
         
         //create gameStatusLabel
         self.gameStatusLabel = [CCLabelTTF labelWithString:@"Hit or Stand?"
@@ -114,7 +124,6 @@
         self.player.busted = NO;
         self.dealer.turnFinished = NO;
         self.dealer.busted = NO;
-        self.totalPointsLabel.string = @"0";
         [self.player.cardHands removeAllObjects];
         [self.dealer.cardHands removeAllObjects];
         [self resetCardDeck];
@@ -173,14 +182,14 @@
             
             if (count > 1) {
                 for (int i = 1; i < count; i++) {
-                    NSInteger previousX = [[self.dealer.cardHands objectAtIndex:(count -2)] position].x;
+                    NSInteger previousX = [[self.dealer.cardHands objectAtIndex:(count - 2)] position].x;
                     if ([[self.dealer.cardHands objectAtIndex:i] position].x == previousX) {
                         previousX += card.sprite.contentSize.width * 1.1;
                         card.position = ccp(previousX, y);
                     }
                 }
             }
-            
+            self.totalDealerPointsLabel.string = [NSString stringWithFormat:@"%d", self.dealer.totalPoints];
             [self.spriteBatchNode addChild:card.sprite];
         }
     }
