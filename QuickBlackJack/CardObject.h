@@ -13,7 +13,7 @@
 
 @property (nonatomic, assign) NSInteger cardValue;
 @property (nonatomic, assign) NSInteger cardNumber;
-@property (nonatomic, unsafe_unretained) GameLayer *gameLayer;
+@property (nonatomic, weak) GameLayer *gameLayer;
 @property (nonatomic) CGPoint position;
 @property (nonatomic, strong) CCSprite *sprite;
 @property (nonatomic, strong) NSString *cardKind;

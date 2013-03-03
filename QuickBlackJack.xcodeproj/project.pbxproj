@@ -136,7 +136,7 @@
 		597844E916E2AC99001E9445 /* vec3.c in Sources */ = {isa = PBXBuildFile; fileRef = 597844E816E2AC99001E9445 /* vec3.c */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		597844EB16E2AC99001E9445 /* vec4.c in Sources */ = {isa = PBXBuildFile; fileRef = 597844EA16E2AC99001E9445 /* vec4.c */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		597844F016E2AC99001E9445 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 597844EF16E2AC99001E9445 /* main.m */; };
-		5978450B16E2ACC5001E9445 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5978450016E2ACC5001E9445 /* AppDelegate.m */; };
+		5978450B16E2ACC5001E9445 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5978450016E2ACC5001E9445 /* AppDelegate.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5978450C16E2ACC5001E9445 /* IntroLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5978450216E2ACC5001E9445 /* IntroLayer.m */; };
 		5978450D16E2ACC5001E9445 /* GameLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5978450416E2ACC5001E9445 /* GameLayer.m */; };
 		5978450E16E2ACC5001E9445 /* CardObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 5978450616E2ACC5001E9445 /* CardObject.m */; };
@@ -1145,6 +1145,7 @@
 				GCC_PREFIX_HEADER = QuickBlackJack/Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"QuickBlackJack/libs/kazmath/include\"";
 				INFOPLIST_FILE = QuickBlackJack/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-lsqlite3",
@@ -1165,6 +1166,7 @@
 				GCC_PREFIX_HEADER = QuickBlackJack/Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"QuickBlackJack/libs/kazmath/include\"";
 				INFOPLIST_FILE = QuickBlackJack/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-lsqlite3",
@@ -1195,6 +1197,7 @@
 				597844FE16E2AC99001E9445 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

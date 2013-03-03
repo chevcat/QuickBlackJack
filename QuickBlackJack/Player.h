@@ -12,7 +12,7 @@
 @interface Player : NSObject
 @property (nonatomic, assign) NSInteger fund;
 @property (nonatomic, strong) NSMutableArray *cardHands;
-@property (nonatomic, unsafe_unretained) GameLayer *layer;
+@property (nonatomic, weak) GameLayer *layer;
 @property (nonatomic, assign) NSInteger totalPoints;
 @property (nonatomic, assign) BOOL busted;
 @property (nonatomic, assign) BOOL turnFinished;

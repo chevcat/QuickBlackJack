@@ -109,12 +109,7 @@
 
 - (void) nextGame: (id) sender {
     if (self.player.turnFinished && self.dealer.turnFinished) {
-        for (CardObject *card in self.player.cardHands) {
-            card.sprite.visible = NO;
-        }
-        for (CardObject *card in self.dealer.cardHands) {
-            card.sprite.visible = NO;
-        }
+        [self.spriteBatchNode removeAllChildrenWithCleanup:YES];
         self.player.turnFinished = NO;
         self.player.busted = NO;
         self.dealer.turnFinished = NO;
@@ -123,6 +118,8 @@
         [self.player.cardHands removeAllObjects];
         [self.dealer.cardHands removeAllObjects];
         [self resetCardDeck];
+        [self drawCardToDealer];
+        [self drawCardToPlayer];
     }
    
 }
@@ -175,17 +172,15 @@
             }
             
             if (count > 1) {
-                
                 for (int i = 1; i < count; i++) {
                     NSInteger previousX = [[self.dealer.cardHands objectAtIndex:(count -2)] position].x;
                     if ([[self.dealer.cardHands objectAtIndex:i] position].x == previousX) {
                         previousX += card.sprite.contentSize.width * 1.1;
                         card.position = ccp(previousX, y);
-                        NSLog(@"x is %d", previousX);
-                        NSLog(@"y is %d", y);
                     }
                 }
-            } 
+            }
+            
             [self.spriteBatchNode addChild:card.sprite];
         }
     }
@@ -228,33 +223,39 @@
     //add card from deck to player's hand and remove it from deck
     if (self.cardDeck) {
         if (self.player) {
+            
             NSInteger cardCount = [self.player.cardHands count];
-            if ((cardCount < 5) && !(self.player.busted) && !(self.player.turnFinished) ) {
+
+            if ((cardCount < 8) && !(self.player.busted) && !(self.player.turnFinished) ) {
                 
                 CardObject *card = [self.cardDeck lastObject];
                 [self.player.cardHands addObject:card];
                 [self.cardDeck removeLastObject];
                 NSInteger count = [self.player.cardHands count];
+                
                 //arrange cards
                 for (int i = 0; i < count; i++) {
                     if (i == 0) {
                         card.position = ccp(card.position.x, card.position.y);
                     } else {
-                        CGFloat x = [[self.player.cardHands objectAtIndex:(i-1)] position].x;
+                        CGFloat x = [[self.player.cardHands objectAtIndex:(i - 1)] position].x;
                         if (card.position.x == x) {
                             card.position = ccp(card.position.x + card.sprite.contentSize.width * 1.1, card.position.y);
                         }
                     }
                 }
+                
                 //self.player.totalPoints += card.cardValue;
                 self.totalPointsLabel.string = [NSString stringWithFormat:@"%d", self.player.totalPoints];
                 if (self.player.totalPoints > 21) {
                     
                     self.player.turnFinished = YES;
                     self.player.busted = YES;
-                    [self performSelector:@selector(dealerTurn:)];
+                    [self performSelector:@selector(dealerTurn:) withObject:nil];
                 }
-                [self.spriteBatchNode addChild:card.sprite];
+                int cardSpriteTag = 99;
+                
+                [self.spriteBatchNode addChild:card.sprite z:0 tag:cardSpriteTag];
             }
         }
     }

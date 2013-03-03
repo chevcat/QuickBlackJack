@@ -114,7 +114,7 @@
 	// Create a Navigation Controller with the Director
 	navController_ = [[MyNavigationController alloc] initWithRootViewController:director_];
 	navController_.navigationBarHidden = YES;
-
+    
 	// for rotation and other messages
 	[director_ setDelegate:navController_];
 	
@@ -137,7 +137,7 @@
 // call got rejected
 -(void) applicationDidBecomeActive:(UIApplication *)application
 {
-	[[CCDirector sharedDirector] setNextDeltaTimeZero:YES];	
+	[[CCDirector sharedDirector] setNextDeltaTimeZero:YES];
 	if( [navController_ visibleViewController] == director_ )
 		[director_ resume];
 }
@@ -172,4 +172,11 @@
 	[[CCDirector sharedDirector] setNextDeltaTimeZero:YES];
 }
 
+- (void) dealloc
+{
+	[window_ release];
+	[navController_ release];
+	
+	[super dealloc];
+}
 @end
