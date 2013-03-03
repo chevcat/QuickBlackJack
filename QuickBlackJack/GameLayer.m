@@ -206,7 +206,7 @@
     if (!self.dealer.turnFinished) {
         if (self.dealer.totalPoints < 22) {
             int probability = arc4random() % 100;
-            BOOL a = probability < 10;
+            BOOL a = (probability < 20) && (probability >=10);
             BOOL b = probability < 3;
             if (self.dealer.totalPoints == 17) {
                 if (a == YES) {
