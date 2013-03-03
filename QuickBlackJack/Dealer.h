@@ -17,5 +17,6 @@
 @property (nonatomic, assign) BOOL turnFinished;
 //designated initializer
 - (id) initWithLayer:(GameLayer *)layer;
+- (void) drawCard;
 
 @end

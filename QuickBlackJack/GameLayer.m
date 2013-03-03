@@ -83,13 +83,13 @@
         
         //create a dealer
         self.dealer = [[Dealer alloc] initWithLayer:self];
-        [self drawCardToDealer];
+        [self.dealer drawCard];
         
         //draw a card when beginning game
-        [self drawCardToPlayer];
+        [self.player drawCard];
         
         //create a hit button
-        CCMenuItem *hitButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"hitbutton.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"hitbutton.png"] target:self selector:@selector(drawCardFromButton:)];
+        CCMenuItem *hitButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"hitbutton.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"hitbutton.png"] target:self selector:@selector(hitButtonPressed:)];
         hitButton.position = ccp(hitButton.contentSize.width / 2, hitButton.contentSize.height / 2);
         
         //create a stand button
@@ -127,8 +127,8 @@
         [self.player.cardHands removeAllObjects];
         [self.dealer.cardHands removeAllObjects];
         [self resetCardDeck];
-        [self drawCardToDealer];
-        [self drawCardToPlayer];
+        [self.dealer drawCard];
+        [self.player drawCard];
     }
    
 }
@@ -139,6 +139,7 @@
     BOOL dealerFinished = self.dealer.turnFinished;
     BOOL playerBusted = self.player.busted;
     BOOL dealerBusted = self.dealer.busted;
+    
     
 //determine current status of game
     if (playerFinished && dealerFinished) {
@@ -159,45 +160,19 @@
     } else self.gameStatusLabel.string = @"Hit or Stand?";
 }
 
-- (void) drawCardFromButton: (id)sender {
-    [self drawCardToPlayer];
+- (void) hitButtonPressed: (id)sender {
+    [self.player drawCard];
 }
 
-- (void) drawCardToDealer {
-    //add card from deck to player's hand and remove it from deck
-    if (self.dealer) {
-        if ([self.dealer.cardHands count] < 8) {
-            //transfer card from deck to dealer's hand
-            CardObject *card = [self.cardDeck lastObject];
-            [self.dealer.cardHands addObject:card];
-            [self.cardDeck removeLastObject];
-            
-            //position of dealer's first card
-            CGFloat x = card.position.x;
-            CGFloat y = card.position.y * 3;
-            
-            NSInteger count = [self.dealer.cardHands count];
-            if (count == 1) {
-                card.position = ccp(x, y);
-            }
-            
-            if (count > 1) {
-                    CGFloat previousX = [[self.dealer.cardHands objectAtIndex:(count - 2)] position].x;
-                        previousX += card.sprite.contentSize.width * 1.1;
-                        card.position = ccp(previousX, y);
-            }
-            self.totalDealerPointsLabel.string = [NSString stringWithFormat:@"%d", self.dealer.totalPoints];
-            [self.spriteBatchNode addChild:card.sprite];
-        }
-    }
-}
+
 
 - (void) dealerTurn: (id)sender {
     //set player's turnFinished to YES
     self.player.turnFinished = YES;
     //dealer has to hit until 17
+    
     while (self.dealer.totalPoints < 17) {
-        [self drawCardToDealer];
+        [self.dealer drawCard];
     }
     //chances
     if (!self.dealer.turnFinished) {
@@ -209,12 +184,12 @@
             
             if (self.dealer.totalPoints == 17) {
                 if (a == YES) {
-                    [self drawCardToDealer];
+                    [self.dealer drawCard];
                 }
             }
             if (self.dealer.totalPoints <= 20) {
                 if (b == YES) {
-                    [self drawCardToDealer];
+                    [self.dealer drawCard];
                 }
                 
             }
@@ -227,48 +202,7 @@
 }
     
 
-- (void) drawCardToPlayer {
-    //add card from deck to player's hand and remove it from deck
-    if (self.cardDeck) {
-        if (self.player) {
-            
-            NSInteger cardCount = [self.player.cardHands count];
-            
-            if ((cardCount < 8) && !(self.player.busted) && !(self.player.turnFinished) ) {
-                //transfer card from deck to player's hand
-                CardObject *card = [self.cardDeck lastObject];
-                [self.player.cardHands addObject:card];
-                [self.cardDeck removeLastObject];
-                
-                NSInteger count = [self.player.cardHands count];
-                
-                CGFloat x = card.position.x;
-                CGFloat y = card.position.y;
-                
-                if (count == 1) {
-                    card.position = ccp(x, y);
-                }
-                
-                if (count > 1) {
-                    CGFloat previousX = [[self.player.cardHands objectAtIndex:(count - 2)] position].x;
-                    card.position = ccp(previousX + card.sprite.contentSize.width * 1.1, y);
-                }
-                //arrange cards in player's hand
-                
-                
-                //self.player.totalPoints += card.cardValue;
-                self.totalPointsLabel.string = [NSString stringWithFormat:@"%d", self.player.totalPoints];
-                if (self.player.totalPoints > 21) {
-                    
-                    self.player.turnFinished = YES;
-                    self.player.busted = YES;
-                    [self performSelector:@selector(dealerTurn:) withObject:nil];
-                }
-                [self.spriteBatchNode addChild:card.sprite];
-            }
-        }
-    }
-}
+
 
 
 - (void) resetCardDeck {

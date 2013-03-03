@@ -56,4 +56,31 @@
     }
     return sum;
 }
+
+- (void) drawCard {
+    //add card from deck to player's hand and remove it from deck
+        if ([self.cardHands count] < 8) {
+            //transfer card from deck to dealer's hand
+            CardObject *card = [self.layer.cardDeck lastObject];
+            [self.cardHands addObject:card];
+            [self.layer.cardDeck removeLastObject];
+            
+            //position of dealer's first card
+            CGFloat x = card.position.x;
+            CGFloat y = card.position.y * 3;
+            
+            NSInteger count = [self.cardHands count];
+            if (count == 1) {
+                card.position = ccp(x, y);
+            }
+            
+            if (count > 1) {
+                CGFloat previousX = [[self.cardHands objectAtIndex:(count - 2)] position].x;
+                previousX += card.sprite.contentSize.width * 1.1;
+                card.position = ccp(previousX, y);
+            }
+            self.layer.totalDealerPointsLabel.string = [NSString stringWithFormat:@"%d", self.totalPoints];
+            [self.layer.spriteBatchNode addChild:card.sprite];
+        }
+}
 @end
