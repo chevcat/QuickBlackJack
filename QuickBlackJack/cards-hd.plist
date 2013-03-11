@@ -7,11 +7,11 @@
             <key>1-clubs.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{490,1620},{120,173}}</string>
+                <string>{{869,1694},{120,173}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <true/>
+                <false/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{120,173}}</string>
                 <key>sourceSize</key>
@@ -20,7 +20,7 @@
             <key>1-diamonds.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{665,1530},{120,173}}</string>
+                <string>{{490,1620},{120,173}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -120,6 +120,19 @@
                 <string>{{0,0},{120,173}}</string>
                 <key>sourceSize</key>
                 <string>{120,173}</string>
+            </dict>
+            <key>100dollar.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{767,1622},{100,90}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{100,90}}</string>
+                <key>sourceSize</key>
+                <string>{100,90}</string>
             </dict>
             <key>11-clubs.png</key>
             <dict>
@@ -329,6 +342,19 @@
                 <key>sourceSize</key>
                 <string>{120,173}</string>
             </dict>
+            <key>25dollar.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{665,1590},{100,90}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{100,90}}</string>
+                <key>sourceSize</key>
+                <string>{100,90}</string>
+            </dict>
             <key>3-clubs.png</key>
             <dict>
                 <key>frame</key>
@@ -484,6 +510,32 @@
                 <string>{{0,0},{120,173}}</string>
                 <key>sourceSize</key>
                 <string>{120,173}</string>
+            </dict>
+            <key>500dollar.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{767,1530},{100,90}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{100,90}}</string>
+                <key>sourceSize</key>
+                <string>{100,90}</string>
+            </dict>
+            <key>5dollar.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{665,1498},{100,90}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{100,90}}</string>
+                <key>sourceSize</key>
+                <string>{100,90}</string>
             </dict>
             <key>6-clubs.png</key>
             <dict>
@@ -768,7 +820,7 @@
             <key>size</key>
             <string>{1024,2048}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:3850c655d3cc8895cf82373f05f013a2$</string>
+            <string>$TexturePacker:SmartUpdate:9e615b9a2ec13e9848648caf5851f9bc$</string>
             <key>textureFileName</key>
             <string>cards-hd.png</string>
         </dict>

@@ -26,6 +26,13 @@
 @property (nonatomic, strong) CCLabelTTF *totalPointsLabel;
 @property (nonatomic, strong) CCLabelTTF *totalDealerPointsLabel;
 @property (nonatomic, strong) CCLabelTTF *gameStatusLabel;
+@property (nonatomic, strong) CCLabelTTF *playerFundLabel;
+@property (nonatomic, strong) CCLabelTTF *betPotLabel;
+
+@property (nonatomic, strong) CCMenuItem *hitButton;
+@property (nonatomic, strong) CCMenuItem *standButton;
+@property (nonatomic, strong) CCMenuItem *nextGameButton;
+@property (nonatomic, assign) NSInteger betPot;
 
 
 @end

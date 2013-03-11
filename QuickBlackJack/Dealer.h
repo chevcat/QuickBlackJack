@@ -15,6 +15,7 @@
 @property (nonatomic, assign) NSInteger totalPoints;
 @property (nonatomic, assign) BOOL busted;
 @property (nonatomic, assign) BOOL turnFinished;
+@property (nonatomic, assign) BOOL containsAce;
 //designated initializer
 - (id) initWithLayer:(GameLayer *)layer;
 - (void) drawCard;

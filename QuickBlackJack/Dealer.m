@@ -15,6 +15,7 @@
 @synthesize totalPoints = _totalPoints;
 @synthesize busted = _busted;
 @synthesize turnFinished = _turnFinished;
+@synthesize containsAce = _containsAce;
 
 - (id) initWithLayer:(GameLayer *)layer {
     if ((self = [super init])) {
@@ -23,6 +24,7 @@
         self.totalPoints = 0;
         self.busted = NO;
         self.turnFinished = NO;
+        self.containsAce = NO;
     }
     return self;
 }
@@ -35,6 +37,7 @@
             CardObject *card = [self.cardHands objectAtIndex:i];
             //Ace case
             if (card.cardNumber == 1) {
+                self.containsAce = YES;
                 if (sum + card.cardValue < 12) {
                     card.cardValue = 11;
                 }
