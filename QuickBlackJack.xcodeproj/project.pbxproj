@@ -142,10 +142,10 @@
 		5978450E16E2ACC5001E9445 /* CardObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 5978450616E2ACC5001E9445 /* CardObject.m */; };
 		5978450F16E2ACC5001E9445 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 5978450816E2ACC5001E9445 /* Player.m */; };
 		5978451016E2ACC5001E9445 /* Dealer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5978450A16E2ACC5001E9445 /* Dealer.m */; };
-		59985F6916EE7E18009D1132 /* cards-hd.plist in Resources */ = {isa = PBXBuildFile; fileRef = 59985F6516EE7E18009D1132 /* cards-hd.plist */; };
-		59985F6A16EE7E18009D1132 /* cards-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 59985F6616EE7E18009D1132 /* cards-hd.png */; };
-		59985F6B16EE7E18009D1132 /* cards.plist in Resources */ = {isa = PBXBuildFile; fileRef = 59985F6716EE7E18009D1132 /* cards.plist */; };
-		59985F6C16EE7E18009D1132 /* cards.png in Resources */ = {isa = PBXBuildFile; fileRef = 59985F6816EE7E18009D1132 /* cards.png */; };
+		59985F7116EE940A009D1132 /* cards-hd.plist in Resources */ = {isa = PBXBuildFile; fileRef = 59985F6D16EE940A009D1132 /* cards-hd.plist */; };
+		59985F7216EE940A009D1132 /* cards-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 59985F6E16EE940A009D1132 /* cards-hd.png */; };
+		59985F7316EE940A009D1132 /* cards.plist in Resources */ = {isa = PBXBuildFile; fileRef = 59985F6F16EE940A009D1132 /* cards.plist */; };
+		59985F7416EE940A009D1132 /* cards.png in Resources */ = {isa = PBXBuildFile; fileRef = 59985F7016EE940A009D1132 /* cards.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -433,10 +433,10 @@
 		5978450816E2ACC5001E9445 /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
 		5978450916E2ACC5001E9445 /* Dealer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dealer.h; sourceTree = "<group>"; };
 		5978450A16E2ACC5001E9445 /* Dealer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dealer.m; sourceTree = "<group>"; };
-		59985F6516EE7E18009D1132 /* cards-hd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "cards-hd.plist"; sourceTree = "<group>"; };
-		59985F6616EE7E18009D1132 /* cards-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cards-hd.png"; sourceTree = "<group>"; };
-		59985F6716EE7E18009D1132 /* cards.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = cards.plist; sourceTree = "<group>"; };
-		59985F6816EE7E18009D1132 /* cards.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cards.png; sourceTree = "<group>"; };
+		59985F6D16EE940A009D1132 /* cards-hd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "cards-hd.plist"; sourceTree = "<group>"; };
+		59985F6E16EE940A009D1132 /* cards-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cards-hd.png"; sourceTree = "<group>"; };
+		59985F6F16EE940A009D1132 /* cards.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = cards.plist; sourceTree = "<group>"; };
+		59985F7016EE940A009D1132 /* cards.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cards.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -517,10 +517,10 @@
 		5978436416E2AC93001E9445 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				59985F6516EE7E18009D1132 /* cards-hd.plist */,
-				59985F6616EE7E18009D1132 /* cards-hd.png */,
-				59985F6716EE7E18009D1132 /* cards.plist */,
-				59985F6816EE7E18009D1132 /* cards.png */,
+				59985F6D16EE940A009D1132 /* cards-hd.plist */,
+				59985F6E16EE940A009D1132 /* cards-hd.png */,
+				59985F6F16EE940A009D1132 /* cards.plist */,
+				59985F7016EE940A009D1132 /* cards.png */,
 				5978436516E2AC93001E9445 /* Default.png */,
 				5978436716E2AC93001E9445 /* Default@2x.png */,
 				5978436916E2AC93001E9445 /* Default-568h@2x.png */,
@@ -960,10 +960,10 @@
 				5978437816E2AC93001E9445 /* Icon@2x.png in Resources */,
 				5978437B16E2AC93001E9445 /* iTunesArtwork in Resources */,
 				597844D116E2AC99001E9445 /* ChangeLog in Resources */,
-				59985F6916EE7E18009D1132 /* cards-hd.plist in Resources */,
-				59985F6A16EE7E18009D1132 /* cards-hd.png in Resources */,
-				59985F6B16EE7E18009D1132 /* cards.plist in Resources */,
-				59985F6C16EE7E18009D1132 /* cards.png in Resources */,
+				59985F7116EE940A009D1132 /* cards-hd.plist in Resources */,
+				59985F7216EE940A009D1132 /* cards-hd.png in Resources */,
+				59985F7316EE940A009D1132 /* cards.plist in Resources */,
+				59985F7416EE940A009D1132 /* cards.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

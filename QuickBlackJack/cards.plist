@@ -124,11 +124,11 @@
             <key>100dollar.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{463,858},{50,45}}</string>
+                <string>{{411,905},{50,45}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <true/>
+                <false/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{50,45}}</string>
                 <key>sourceSize</key>
@@ -345,11 +345,11 @@
             <key>25dollar.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{359,867},{50,45}}</string>
+                <string>{{463,858},{50,45}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{50,45}}</string>
                 <key>sourceSize</key>
@@ -514,7 +514,7 @@
             <key>500dollar.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{411,858},{50,45}}</string>
+                <string>{{359,867},{50,45}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -527,7 +527,7 @@
             <key>5dollar.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{359,820},{50,45}}</string>
+                <string>{{411,858},{50,45}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -745,6 +745,19 @@
                 <key>sourceSize</key>
                 <string>{60,87}</string>
             </dict>
+            <key>dealbutton.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{359,820},{50,45}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{50,45}}</string>
+                <key>sourceSize</key>
+                <string>{50,45}</string>
+            </dict>
             <key>facedown.png</key>
             <dict>
                 <key>frame</key>
@@ -820,7 +833,7 @@
             <key>size</key>
             <string>{512,1024}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:a0a9e554b96602e3fb318276de71e4bf$</string>
+            <string>$TexturePacker:SmartUpdate:d337ea8653572c159862bf63e648e4eb$</string>
             <key>textureFileName</key>
             <string>cards.png</string>
         </dict>

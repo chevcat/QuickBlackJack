@@ -31,7 +31,10 @@
 
 @property (nonatomic, strong) CCMenuItem *hitButton;
 @property (nonatomic, strong) CCMenuItem *standButton;
-@property (nonatomic, strong) CCMenuItem *nextGameButton;
+@property (nonatomic, strong) CCMenuItem *okButton;
+@property (nonatomic, strong) CCMenuItem *dealButton;
+@property (nonatomic, strong) CCMenu *betMenu;
+
 @property (nonatomic, assign) NSInteger betPot;
 
 
