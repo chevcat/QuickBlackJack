@@ -758,6 +758,19 @@
                 <key>sourceSize</key>
                 <string>{100,90}</string>
             </dict>
+            <key>doublebutton.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{964,49},{50,45}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{50,45}}</string>
+                <key>sourceSize</key>
+                <string>{50,45}</string>
+            </dict>
             <key>facedown.png</key>
             <dict>
                 <key>frame</key>
@@ -797,6 +810,19 @@
                 <key>sourceSize</key>
                 <string>{100,90}</string>
             </dict>
+            <key>splitbutton.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{964,2},{50,45}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{50,45}}</string>
+                <key>sourceSize</key>
+                <string>{50,45}</string>
+            </dict>
             <key>standbutton.png</key>
             <dict>
                 <key>frame</key>
@@ -833,7 +859,7 @@
             <key>size</key>
             <string>{1024,2048}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:0368038e9b48d9dda4804135a8c64d7f$</string>
+            <string>$TexturePacker:SmartUpdate:72f335f7d384cc7343776af889663156$</string>
             <key>textureFileName</key>
             <string>cards-hd.png</string>
         </dict>

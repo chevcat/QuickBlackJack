@@ -124,11 +124,11 @@
             <key>100dollar.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{411,905},{50,45}}</string>
+                <string>{{463,910},{50,45}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{50,45}}</string>
                 <key>sourceSize</key>
@@ -345,11 +345,11 @@
             <key>25dollar.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{463,858},{50,45}}</string>
+                <string>{{358,914},{50,45}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <true/>
+                <false/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{50,45}}</string>
                 <key>sourceSize</key>
@@ -514,7 +514,7 @@
             <key>500dollar.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{359,867},{50,45}}</string>
+                <string>{{411,905},{50,45}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -527,11 +527,11 @@
             <key>5dollar.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{411,858},{50,45}}</string>
+                <string>{{463,858},{50,45}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{50,45}}</string>
                 <key>sourceSize</key>
@@ -748,7 +748,20 @@
             <key>dealbutton.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{359,820},{50,45}}</string>
+                <string>{{359,867},{50,45}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{50,45}}</string>
+                <key>sourceSize</key>
+                <string>{50,45}</string>
+            </dict>
+            <key>doublebutton.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{411,858},{50,45}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -774,6 +787,19 @@
             <key>hitbutton.png</key>
             <dict>
                 <key>frame</key>
+                <string>{{359,820},{50,45}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{50,45}}</string>
+                <key>sourceSize</key>
+                <string>{50,45}</string>
+            </dict>
+            <key>replaybutton.png</key>
+            <dict>
+                <key>frame</key>
                 <string>{{312,858},{50,45}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
@@ -784,7 +810,7 @@
                 <key>sourceSize</key>
                 <string>{50,45}</string>
             </dict>
-            <key>replaybutton.png</key>
+            <key>splitbutton.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{126,619},{50,45}}</string>
@@ -833,7 +859,7 @@
             <key>size</key>
             <string>{512,1024}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:d337ea8653572c159862bf63e648e4eb$</string>
+            <string>$TexturePacker:SmartUpdate:03c60a6c74f98963beaa3dab9d4d30d2$</string>
             <key>textureFileName</key>
             <string>cards.png</string>
         </dict>

@@ -21,7 +21,7 @@
     if ((self = [super init])) {
         self.layer = layer;
         self.cardHands = [[NSMutableArray alloc] init];
-        self.fund = 4999;
+        self.fund = 5000;
         self.totalPoints = 0;
         self.busted = NO;
         self.turnFinished = NO;

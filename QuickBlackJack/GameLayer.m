@@ -113,11 +113,6 @@
         [self disableButton:self.okButton];
         [self disableButton:self.dealButton];
         
-        
-        
-        //begin the game
-        //[self performSelector:@selector(nextGame:) withObject:nil];
-        
         //create totalPoints label
         self.totalPointsLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%d", self.player.totalPoints]
                                         fontName:@"Arial"
@@ -162,14 +157,7 @@
                                                  hAlignment:UITextAlignmentCenter];
         self.gameStatusLabel.position = ccp(self.gameStatusLabel.contentSize.width / 2, size.height / 2);
         [self addChild:self.gameStatusLabel];
-        
-       
-        
-       
-        //test with a card
-//        CardObject *card = [self.cardDeck objectAtIndex:26];
-//        NSLog(@"%f", card.sprite.position.x);
-//        [self.spriteBatchNode addChild:card.sprite];
+
         [self scheduleUpdate];
     }
     return self;
@@ -193,14 +181,6 @@
         [self.dealButton setVisible:YES];
     }
     
-}
-
-- (void)dealButtonPressed:(id)sender {
-    [self.betMenu setEnabled:NO];
-    [self disableButton:self.dealButton];
-    [self enableButton:self.hitButton];
-    [self enableButton:self.standButton];
-    [self performSelector:@selector(inGame:) withObject:nil];
 }
 
 - (void)twentyFiveDollarPressed:(id)sender {
@@ -230,6 +210,70 @@
     }
 }
 
+- (void)dealButtonPressed:(id)sender {
+    [self.betMenu setEnabled:NO];
+    [self disableButton:self.dealButton];
+    [self enableButton:self.hitButton];
+    [self enableButton:self.standButton];
+    [self performSelector:@selector(inGame:) withObject:nil];
+}
+
+- (void)inGame:(id)sender {
+    [self.player drawCard];
+    [self.dealer drawCard];
+    [self.player drawCard];
+    [self.dealer drawCard];
+}
+
+- (void) hitButtonPressed: (id)sender {
+    [self.player drawCard];
+
+}
+
+- (void) dealerTurn: (id)sender {
+    //set player's turnFinished to YES
+    self.player.turnFinished = YES;
+    
+    if (self.player.busted) {
+        self.dealer.turnFinished = YES;
+    }
+    //dealer has to hit until 16
+    
+    else {
+        
+        while (self.dealer.totalPoints < 16 || (self.dealer.totalPoints == 17 && self.dealer.containsAce == YES)) {
+            [self.dealer drawCard];
+        }
+        //chances
+        if (!self.dealer.turnFinished) {
+            if (self.dealer.totalPoints < 22) {
+                int probability = arc4random() % 100;
+                
+                BOOL a = (probability < 20) && (probability >=10);
+                BOOL b = probability < 3;
+                
+                if (self.dealer.totalPoints == 17) {
+                    if (a == YES) {
+                        [self.dealer drawCard];
+                    }
+                }
+                if (self.dealer.totalPoints <= 20) {
+                    if (b == YES) {
+                        [self.dealer drawCard];
+                    }
+                }
+            }
+            if (self.dealer.totalPoints > 21) {
+                self.dealer.turnFinished = YES;
+                self.dealer.busted = YES;
+            } else self.dealer.turnFinished = YES;
+        }
+    }
+    [self enableButton:self.okButton];
+    [self disableButton:self.hitButton];
+    [self disableButton:self.standButton];
+}
+
 - (void)okButtonPressed:(id)sender {
     self.player.turnFinished = NO;
     self.player.busted = NO;
@@ -244,13 +288,25 @@
     self.totalDealerPointsLabel.string = @"0";
     [self resetCardDeck];
     [self.betMenu setEnabled:YES];
+    if (self.player.fund == 0 && self.betPot == 0) {
+        [self extendFund];
+    }
 }
 
-- (void)inGame:(id)sender {
-        [self.player drawCard];
-        [self.dealer drawCard];
-        [self.player drawCard];
-        [self.dealer drawCard];
+- (void)extendFund {
+    UIAlertView *alert = [[UIAlertView alloc] init];
+    [alert setDelegate:self];
+    [alert setTitle:@"Good news"];
+    [alert setMessage:@"The casino decided to give you an extra $5000 to play. Have fun :)"];
+    [alert addButtonWithTitle:@"Thanks"];
+    [alert show];
+}
+
+-(void) alertView:(UIAlertView *)alert clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0) {
+        self.player.fund = 5000;
+        [alert dismissWithClickedButtonIndex:0 animated:YES];
+    }
 }
 
 - (void) update:(ccTime)delta {
@@ -264,11 +320,7 @@
     
 //determine current status of game
     if (playerFinished && dealerFinished) {
-        if ((playerBusted && dealerBusted)) {
-            self.gameStatusLabel.string = @"Tie!";
-            self.player.fund += self.betPot;
-            self.betPot = 0;
-        } else if (playerBusted ) {
+        if (playerBusted) {
             self.gameStatusLabel.string = @"Player Lost...";
             self.betPot = 0;
         } else if (dealerBusted) {
@@ -276,7 +328,7 @@
             self.player.fund += self.betPot * 2;
             self.betPot = 0;
         } else if (self.player.totalPoints == self.dealer.totalPoints) {
-            self.gameStatusLabel.string = @"Tie!";
+            self.gameStatusLabel.string = @"Push";
             self.player.fund += self.betPot;
             self.betPot = 0;
         } else if (self.player.totalPoints > self.dealer.totalPoints) {
@@ -287,56 +339,8 @@
             self.gameStatusLabel.string = @"Player Lost...";
             self.betPot = 0;
         }
-    
     } else self.gameStatusLabel.string = @"Hit or Stand?";
 }
-
-- (void) hitButtonPressed: (id)sender {
-    [self.player drawCard];
-}
-
-
-
-- (void) dealerTurn: (id)sender {
-    //set player's turnFinished to YES
-    self.player.turnFinished = YES;
-    //dealer has to hit until 16
-    
-    while (self.dealer.totalPoints < 16 || (self.dealer.totalPoints == 17 && self.dealer.containsAce == YES)) {
-        [self.dealer drawCard];
-    }
-    //chances
-    if (!self.dealer.turnFinished) {
-        if (self.dealer.totalPoints < 22) {
-            int probability = arc4random() % 100;
-            
-            BOOL a = (probability < 20) && (probability >=10);
-            BOOL b = probability < 3;
-            
-            if (self.dealer.totalPoints == 17) {
-                if (a == YES) {
-                    [self.dealer drawCard];
-                }
-            }
-            if (self.dealer.totalPoints <= 20) {
-                if (b == YES) {
-                    [self.dealer drawCard];
-                }
-            }
-        }
-        if (self.dealer.totalPoints > 21) {
-            self.dealer.turnFinished = YES;
-            self.dealer.busted = YES;
-        } else self.dealer.turnFinished = YES;
-    }
-    [self enableButton:self.okButton];
-    [self disableButton:self.hitButton];
-    [self disableButton:self.standButton];
-}
-    
-
-
-
 
 - (void) resetCardDeck {
     if (self.cardDeck) {
