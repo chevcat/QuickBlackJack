@@ -26,6 +26,7 @@
 @synthesize hitButton = _hitButton;
 @synthesize standButton = _standButton;
 @synthesize okButton = _okButton;
+@synthesize doubleButton = _doubleButton;
 @synthesize betMenu = _betMenu;
 
 + (CCScene *) scene {
@@ -74,11 +75,15 @@
         
         //create a stand button
         self.standButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"standbutton.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"standbutton.png"] target:self selector:@selector(dealerTurn:)];
-        self.standButton.position = ccp(self.standButton.contentSize.width / 2, self.hitButton.contentSize.height * 1.4);
+        self.standButton.position = ccp(self.standButton.contentSize.width / 2, self.hitButton.position.y + self.standButton.contentSize.height + 5);
+        
+        //create a double button
+        self.doubleButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"doublebutton.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"doublebutton.png"] target:self selector:@selector(doubleButtonPressed:)];
+        self.doubleButton.position = ccp(self.doubleButton.contentSize.width / 2, self.standButton.position.y + self.doubleButton.contentSize.height + 5);
         
         //create a nextGame button
         self.okButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"replaybutton.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"replaybutton.png"] target:self selector:@selector(okButtonPressed:)];
-        self.okButton.position = ccp(self.standButton.position.x, self.hitButton.contentSize.height * 2.5);
+        self.okButton.position = ccp(self.okButton.contentSize.width / 2, self.doubleButton.position.y + self.okButton.contentSize.height + 5);
         
         //create a fiveDollar button
         CCMenuItem *fiveDollarButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"5dollar.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"5dollar.png"] target:self selector:@selector(fiveDollarPressed:)];
@@ -97,7 +102,7 @@
         fiveHundredDollarButton.position = ccp(oneHundredDollarButton.position.x + fiveHundredDollarButton.contentSize.width + 10, fiveDollarButton.position.y);
         
         //add buttons to menu
-        CCMenu *menu = [CCMenu menuWithItems: self.dealButton, self.hitButton, self.standButton, self.okButton,  nil];
+        CCMenu *menu = [CCMenu menuWithItems: self.dealButton, self.hitButton, self.standButton, self.okButton, self.doubleButton,  nil];
         menu.position = CGPointZero;
         self.betMenu = [CCMenu menuWithItems:fiveDollarButton, twentyFiveDollarButton, oneHundredDollarButton, fiveHundredDollarButton, nil];
         self.betMenu.position = CGPointZero;
@@ -112,6 +117,7 @@
         [self disableButton:self.standButton];
         [self disableButton:self.okButton];
         [self disableButton:self.dealButton];
+        [self disableButton:self.doubleButton];
         
         //create totalPoints label
         self.totalPointsLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%d", self.player.totalPoints]
@@ -119,7 +125,7 @@
                                         fontSize:20
                                       dimensions:CGSizeMake(40, 40)
                                       hAlignment:UITextAlignmentCenter];
-        self.totalPointsLabel.position = ccp(self.totalPointsLabel.contentSize.width / 2, size.height / 2 - (self.totalPointsLabel.contentSize.height / 2) * 0.7);
+        self.totalPointsLabel.position = ccp(self.totalPointsLabel.contentSize.width / 2, self.okButton.position.y + self.okButton.contentSize.height);
         [self addChild:self.totalPointsLabel];
         
         //create playerFund label
@@ -180,7 +186,6 @@
         [self.dealButton setIsEnabled:YES];
         [self.dealButton setVisible:YES];
     }
-    
 }
 
 - (void)twentyFiveDollarPressed:(id)sender {
@@ -215,6 +220,7 @@
     [self disableButton:self.dealButton];
     [self enableButton:self.hitButton];
     [self enableButton:self.standButton];
+    [self enableButton:self.doubleButton];
     [self performSelector:@selector(inGame:) withObject:nil];
 }
 
@@ -228,6 +234,16 @@
 - (void) hitButtonPressed: (id)sender {
     [self.player drawCard];
 
+}
+
+- (void) doubleButtonPressed: (id)sender {
+    if (self.player.fund >= self.betPot) {
+        [self.doubleButton setIsEnabled:NO];
+        self.player.fund -= self.betPot;
+        self.betPot = self.betPot * 2;
+        [self performSelector:@selector(hitButtonPressed:) withObject:nil];
+        [self performSelector:@selector(dealerTurn:) withObject:nil];
+    }
 }
 
 - (void) dealerTurn: (id)sender {
@@ -272,7 +288,10 @@
     [self enableButton:self.okButton];
     [self disableButton:self.hitButton];
     [self disableButton:self.standButton];
+    [self disableButton:self.doubleButton];
 }
+
+
 
 - (void)okButtonPressed:(id)sender {
     self.player.turnFinished = NO;
@@ -288,7 +307,7 @@
     self.totalDealerPointsLabel.string = @"0";
     [self resetCardDeck];
     [self.betMenu setEnabled:YES];
-    if (self.player.fund == 0 && self.betPot == 0) {
+    if (self.player.fund < 5 && self.betPot == 0) {
         [self extendFund];
     }
 }

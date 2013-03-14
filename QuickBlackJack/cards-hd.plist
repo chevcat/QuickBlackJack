@@ -124,7 +124,7 @@
             <key>100dollar.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{665,1682},{100,90}}</string>
+                <string>{{767,1714},{100,90}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -345,7 +345,7 @@
             <key>25dollar.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{767,1622},{100,90}}</string>
+                <string>{{869,1694},{100,90}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -514,7 +514,7 @@
             <key>500dollar.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{665,1590},{100,90}}</string>
+                <string>{{665,1682},{100,90}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -527,7 +527,7 @@
             <key>5dollar.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{767,1530},{100,90}}</string>
+                <string>{{767,1622},{100,90}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -748,7 +748,7 @@
             <key>dealbutton.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{665,1498},{100,90}}</string>
+                <string>{{665,1590},{100,90}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -761,15 +761,15 @@
             <key>doublebutton.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{964,49},{50,45}}</string>
+                <string>{{767,1530},{100,90}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,0},{50,45}}</string>
+                <string>{{0,0},{100,90}}</string>
                 <key>sourceSize</key>
-                <string>{50,45}</string>
+                <string>{100,90}</string>
             </dict>
             <key>facedown.png</key>
             <dict>
@@ -787,7 +787,7 @@
             <key>hitbutton.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{771,1438},{100,90}}</string>
+                <string>{{665,1498},{100,90}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -800,7 +800,7 @@
             <key>replaybutton.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{771,1346},{100,90}}</string>
+                <string>{{771,1438},{100,90}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -813,15 +813,15 @@
             <key>splitbutton.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{964,2},{50,45}}</string>
+                <string>{{771,1346},{100,90}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,0},{50,45}}</string>
+                <string>{{0,0},{100,90}}</string>
                 <key>sourceSize</key>
-                <string>{50,45}</string>
+                <string>{100,90}</string>
             </dict>
             <key>standbutton.png</key>
             <dict>
@@ -859,7 +859,7 @@
             <key>size</key>
             <string>{1024,2048}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:72f335f7d384cc7343776af889663156$</string>
+            <string>$TexturePacker:SmartUpdate:ad70b1a0f73b28ee6f59e450ae220acd$</string>
             <key>textureFileName</key>
             <string>cards-hd.png</string>
         </dict>
