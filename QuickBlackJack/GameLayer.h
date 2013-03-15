@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "cocos2d.h"
+#import "AppDelegate.h"
 @class Player;
 @class Dealer;
 
@@ -35,6 +36,7 @@
 @property (nonatomic, strong) CCMenuItem *okButton;
 @property (nonatomic, strong) CCMenuItem *dealButton;
 @property (nonatomic, strong) CCMenuItem *doubleButton;
+@property (nonatomic, strong) CCMenuItem *splitButton;
 
 @property (nonatomic, strong) CCMenu *betMenu;
 

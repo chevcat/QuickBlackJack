@@ -9,6 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "cocos2d.h"
 
+#define kFiveDollarTag 0
+#define kTwentyFiveDollarTag 1
+#define kOneHunredDollarTag 2
+#define kFiveHundredDollarTag 3
+#define kDealButtonTag 4
+#define kHitButtonTag 5
+#define kStandButtonTag 6
+#define kDoubleButtonTag 7
+#define kOKButtonTag 8
+
 // Added only for iOS 6 support
 @interface MyNavigationController : UINavigationController <CCDirectorDelegate>
 @end
