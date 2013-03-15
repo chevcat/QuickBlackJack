@@ -79,7 +79,7 @@
             
             if (count > 1) {
                 CGFloat previousX = [[self.cardHands objectAtIndex:(count - 2)] position].x;
-                previousX += card.sprite.contentSize.width * 1.1;
+                previousX += 10;
                 card.position = ccp(previousX, y);
             }
             self.layer.totalDealerPointsLabel.string = [NSString stringWithFormat:@"%d", self.totalPoints];

@@ -33,7 +33,6 @@
     //calculate player's totalPoints based on the values of their cards
     NSInteger sum = 0;
     for (int i = 0; i < [self.cardHands count]; i++) {
-        if ([[self.cardHands objectAtIndex:i] isKindOfClass:[CardObject class]]) {
             CardObject *card = [self.cardHands objectAtIndex:i];
             if (card.cardNumber == 1) {
                 if (sum + card.cardValue < 12) {
@@ -41,7 +40,6 @@
                 }
             }
             sum += card.cardValue;
-        }
     }
     if (sum > 21) {
         for (int i = 0; i < [self.cardHands count]; i++) {
@@ -58,7 +56,6 @@
 
 - (void) drawCard{
     //add card from deck to player's hand and remove it from deck
-    if (self.layer.cardDeck) {
             NSInteger cardCount = [self.cardHands count];
             
             if ((cardCount < 8) && !(self.busted) && !(self.turnFinished) ) {
@@ -78,7 +75,7 @@
                 
                 if (count > 1) {
                     CGFloat previousX = [[self.cardHands objectAtIndex:(count - 2)] position].x;
-                    card.position = ccp(previousX + card.sprite.contentSize.width * 1.1, y);
+                    card.position = ccp(previousX + 10, y);
                 }
                 //arrange cards in player's hand
                 
@@ -93,7 +90,6 @@
                 }
                 [self.layer.spriteBatchNode addChild:card.sprite];
             }
-        }
 }
 
 
