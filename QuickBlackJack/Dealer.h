@@ -18,6 +18,6 @@
 @property (nonatomic, assign) BOOL containsAce;
 //designated initializer
 - (id) initWithLayer:(GameLayer *)layer;
-- (void) drawCard;
+- (void) drawCard: (float)delay;
 
 @end

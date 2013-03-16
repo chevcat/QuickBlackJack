@@ -29,6 +29,10 @@
     self.sprite.position = position;
 }
 
+- (void)setPlainPosition:(CGPoint)position {
+    _position = position;
+}
+
 - (void)setCardNumber:(NSInteger)cardNumber {
     _cardNumber = cardNumber;
     if (cardNumber <= 10 && cardNumber >0) {

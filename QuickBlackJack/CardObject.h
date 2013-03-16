@@ -20,5 +20,6 @@
 //designated initializer
 - (id) initWithLayer:(GameLayer *)layer;
 - (NSInteger)cardKindLookUp:(NSString *)string;
+- (void)setPlainPosition:(CGPoint)position;
 
 @end

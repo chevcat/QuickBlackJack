@@ -60,7 +60,7 @@
     return sum;
 }
 
-- (void) drawCard {
+- (void) drawCard:(float)delay {
     //add card from deck to player's hand and remove it from deck
         if ([self.cardHands count] < 8) {
             //transfer card from deck to dealer's hand
@@ -69,18 +69,38 @@
             [self.layer.cardDeck removeLastObject];
             
             //position of dealer's first card
-            CGFloat x = card.position.x;
-            CGFloat y = card.position.y * 3;
+            CGFloat x = 120;
+            CGFloat y = 350;
             
             NSInteger count = [self.cardHands count];
             if (count == 1) {
-                card.position = ccp(x, y);
+                if (!delay) {
+                    id move = [CCMoveTo actionWithDuration:0.4 position:ccp(x, y)];
+                    [card.sprite runAction:move];
+                } else {
+                    id delayTime    = [CCDelayTime actionWithDuration:delay];
+                    id move     = [CCMoveTo actionWithDuration:0.4 position:ccp(x, y)];
+                    id sequence = [CCSequence actions:delayTime, move, nil];
+                    [card.sprite runAction:sequence];
+                }
+
+                [card setPlainPosition:ccp(x, y)];
             }
             
             if (count > 1) {
                 CGFloat previousX = [[self.cardHands objectAtIndex:(count - 2)] position].x;
                 previousX += 10;
-                card.position = ccp(previousX, y);
+                if (!delay) {
+                    id move = [CCMoveTo actionWithDuration:0.4 position:ccp(previousX, y)];
+                    [card.sprite runAction:move];
+                } else {
+                    id delayTime    = [CCDelayTime actionWithDuration:delay];
+                    id move     = [CCMoveTo actionWithDuration:0.4 position:ccp(previousX, y)];
+                    id sequence = [CCSequence actions:delayTime, move, nil];
+                    [card.sprite runAction:sequence];
+                }
+                
+                [card setPlainPosition:ccp(previousX, y)];
             }
             self.layer.totalDealerPointsLabel.string = [NSString stringWithFormat:@"%d", self.totalPoints];
             [self.layer.spriteBatchNode addChild:card.sprite];
