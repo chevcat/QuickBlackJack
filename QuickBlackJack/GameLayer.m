@@ -16,6 +16,7 @@
 @synthesize spriteBatchNode = _spriteBatchNode;
 @synthesize cardDeck = _cardDeck;
 @synthesize player = _player;
+@synthesize player2 = _player2;
 @synthesize dealer = _dealer;
 @synthesize totalPointsLabel = _totalPointsLabel;
 @synthesize totalDealerPointsLabel = _totalDealerPointsLabel;
@@ -29,6 +30,10 @@
 @synthesize doubleButton = _doubleButton;
 @synthesize splitButton = _splitButton;
 @synthesize betMenu = _betMenu;
+@synthesize splitMode = _splitMode;
+@synthesize firstHandFinished = _firstHandFinished;
+@synthesize gameScore = _gameScore;
+
 
 + (CCScene *) scene {
     CCScene *scene = [CCScene node];
@@ -39,7 +44,8 @@
 
 - (id) init {
     if ((self = [super init])) {
-        [CCTexture2D setDefaultAlphaPixelFormat:kCCTexture2DPixelFormat_RGB565];
+        
+        [CCTexture2D setDefaultAlphaPixelFormat:kCCTexture2DPixelFormat_RGBA4444];
         CGSize size = [[CCDirector sharedDirector] winSize];
         //add spriteBatchNode
         self.spriteBatchNode = [CCSpriteBatchNode batchNodeWithFile:@"cards.png"];
@@ -48,6 +54,7 @@
         //add sprites to frame cache
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"cards.plist"];
         
+        [CCTexture2D setDefaultAlphaPixelFormat:kCCTexture2DPixelFormat_RGB565];
         //add background
         CCSprite *background = [CCSprite spriteWithSpriteFrameName:@"surface.png"];
         background.anchorPoint = ccp(0, 0);
@@ -55,10 +62,9 @@
         
         [CCTexture2D setDefaultAlphaPixelFormat:kCCTexture2DPixelFormat_Default];
         
-        
-        
         //initiate bet pot
         self.betPot = 0;
+        self.gameScore = 0;
         
         //create a player
         self.player = [[Player alloc] initWithLayer:self];
@@ -67,49 +73,78 @@
         self.dealer = [[Dealer alloc] initWithLayer:self];
         
         //create a deal button
-        self.dealButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"dealbutton.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"dealbutton.png"] target:self selector:@selector(dealButtonPressed:)];
+        self.dealButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"dealbutton.png"]
+                                                 selectedSprite:[CCSprite spriteWithSpriteFrameName:@"dealbutton.png"]
+                                                         target:self
+                                                       selector:@selector(dealButtonPressed:)];
         self.dealButton.position = ccp(self.dealButton.contentSize.width / 2, self.dealButton.contentSize.height / 2);
         
         
         
         //create a hit button
-        self.hitButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"hitbutton.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"hitbutton.png"] target:self selector:@selector(hitButtonPressed:)];
+        self.hitButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"hitbutton.png"]
+                                                selectedSprite:[CCSprite spriteWithSpriteFrameName:@"hitbutton.png"]
+                                                        target:self
+                                                      selector:@selector(hitButtonPressed:)];
         self.hitButton.position = ccp(self.hitButton.contentSize.width / 2, self.hitButton.contentSize.height / 2);
-        self.hitButton.tag = 
         
         //create a stand button
-        self.standButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"standbutton.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"standbutton.png"] target:self selector:@selector(dealerTurn:)];
+        self.standButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"standbutton.png"]
+                                                  selectedSprite:[CCSprite spriteWithSpriteFrameName:@"standbutton.png"]
+                                                          target:self
+                                                        selector:@selector(dealerTurn:)];
         self.standButton.position = ccp(self.standButton.contentSize.width / 2, self.hitButton.position.y + self.standButton.contentSize.height + 5);
         
         //create a double button
-        self.doubleButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"doublebutton.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"doublebutton.png"] target:self selector:@selector(doubleButtonPressed:)];
+        self.doubleButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"doublebutton.png"]
+                                                   selectedSprite:[CCSprite spriteWithSpriteFrameName:@"doublebutton.png"]
+                                                           target:self
+                                                         selector:@selector(doubleButtonPressed:)];
         self.doubleButton.position = ccp(self.doubleButton.contentSize.width / 2, self.standButton.position.y + self.doubleButton.contentSize.height + 5);
         
         //create a nextGame button
-        self.okButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"replaybutton.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"replaybutton.png"] target:self selector:@selector(okButtonPressed:)];
+        self.okButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"replaybutton.png"]
+                                               selectedSprite:[CCSprite spriteWithSpriteFrameName:@"replaybutton.png"]
+                                                       target:self
+                                                     selector:@selector(okButtonPressed:)];
         self.okButton.position = ccp(self.okButton.contentSize.width / 2, self.doubleButton.position.y + self.okButton.contentSize.height + 5);
         
         //
-        self.splitButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"splitbutton.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"splitbutton.png"] target:self selector:@selector(splitButtonPressed:)];
+        self.splitButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"splitbutton.png"]
+                                                  selectedSprite:[CCSprite spriteWithSpriteFrameName:@"splitbutton.png"]
+                                                          target:self
+                                                        selector:@selector(splitButtonPressed:)];
         self.splitButton.position = ccp(self.okButton.position.x, self.okButton.position.y);
         
         //create a fiveDollar button
-        CCMenuItem *fiveDollarButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"5dollar.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"5dollar.png"] target:self selector:@selector(bettingButtonPressed:)];
+        CCMenuItem *fiveDollarButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"5dollar.png"]
+                                                              selectedSprite:[CCSprite spriteWithSpriteFrameName:@"5dollar.png"]
+                                                                      target:self
+                                                                    selector:@selector(bettingButtonPressed:)];
         fiveDollarButton.position = ccp(size.width - fiveDollarButton.contentSize.width / 2, size.height - fiveDollarButton.contentSize.height * 4);
         fiveDollarButton.tag = kFiveDollarTag;
         
         //create a twentyFiveDollar button
-        CCMenuItem *twentyFiveDollarButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"25dollar.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"25dollar.png"] target:self selector:@selector(bettingButtonPressed:)];
+        CCMenuItem *twentyFiveDollarButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"25dollar.png"]
+                                                                    selectedSprite:[CCSprite spriteWithSpriteFrameName:@"25dollar.png"]
+                                                                            target:self
+                                                                          selector:@selector(bettingButtonPressed:)];
         twentyFiveDollarButton.position = ccp(fiveDollarButton.position.x, fiveDollarButton.position.y - twentyFiveDollarButton.contentSize.height - 5);
         twentyFiveDollarButton.tag = kTwentyFiveDollarTag;
         
         //create a oneHundredDollar button
-        CCMenuItem *oneHundredDollarButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"100dollar.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"100dollar.png"] target:self selector:@selector(bettingButtonPressed:)];
+        CCMenuItem *oneHundredDollarButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"100dollar.png"]
+                                                                    selectedSprite:[CCSprite spriteWithSpriteFrameName:@"100dollar.png"]
+                                                                            target:self
+                                                                          selector:@selector(bettingButtonPressed:)];
         oneHundredDollarButton.position = ccp(twentyFiveDollarButton.position.x, twentyFiveDollarButton.position.y - oneHundredDollarButton.contentSize.height - 5);
         oneHundredDollarButton.tag = kOneHunredDollarTag;
         
         //create a fiveHundredDollar button
-        CCMenuItem *fiveHundredDollarButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"500dollar.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"500dollar.png"] target:self selector:@selector(bettingButtonPressed:)];
+        CCMenuItem *fiveHundredDollarButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"500dollar.png"]
+                                                                     selectedSprite:[CCSprite spriteWithSpriteFrameName:@"500dollar.png"]
+                                                                             target:self
+                                                                           selector:@selector(bettingButtonPressed:)];
         fiveHundredDollarButton.position = ccp(oneHundredDollarButton.position.x, oneHundredDollarButton.position.y - fiveHundredDollarButton.contentSize.height - 5);
         fiveHundredDollarButton.tag = kFiveHundredDollarTag;
         
@@ -132,6 +167,8 @@
         [self disableButton:self.dealButton];
         [self disableButton:self.doubleButton];
         [self disableButton:self.splitButton];
+        self.splitMode = NO;
+        self.firstHandFinished = NO;
         
         //create totalPoints label
         self.totalPointsLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%d", self.player.totalPoints]
@@ -184,7 +221,15 @@
 }
 
 - (void)splitButtonPressed:(id)sender {
-    
+    if (self.betPot <= self.player.fund) {
+        self.splitMode = YES;
+    }
+    [self disableButton:self.splitButton];
+    self.player2 = [[Player alloc] initWithLayer:self];
+    [self.player2.cardHands addObject:[self.player.cardHands lastObject]];
+    [self.player.cardHands removeLastObject];
+    CardObject *card = [self.player.cardHands objectAtIndex:0];
+    [[self.player2.cardHands lastObject] setPosition:ccp(card.position.x + 100, card.position.y)];
 }
 
 - (void)disableButton:(CCMenuItem *)button {
@@ -240,11 +285,13 @@
 }
 
 - (void)inGame {
-    [self.player drawCard];
-    [self.dealer drawCard];
-    [self.player drawCard];
-    [self.dealer drawCard];
+    [self.player drawCard:0];
+    [self.dealer drawCard:0.5f];
+    [self.player drawCard:1.0f];
+    [self.dealer drawCard:1.5f];
     if (self.dealer.totalPoints == 21 || self.player.totalPoints == 21) {
+        self.player.fund = self.player.fund - self.betPot / 2;
+        self.betPot = self.betPot * 1.5;
             self.player.turnFinished = YES;
             self.dealer.turnFinished = YES;
             [self endGame];
@@ -257,11 +304,25 @@
 }
 
 - (void) hitButtonPressed: (id)sender {
-    [self.player drawCard];
+    [self disableButton:self.splitButton];
+    BOOL singleHandMode = [self singleHandMode];
+    if (singleHandMode) {
+        [self.player drawCard:0];
+    }
+
+    else [self.player2 drawCard:0];
     
 }
 
+- (BOOL) singleHandMode {
+    if ((!self.splitMode) || (self.splitMode && (!self.firstHandFinished))) {
+        return YES;
+    } else return NO;
+        
+}
+
 - (void) doubleButtonPressed: (id)sender {
+    [self disableButton:self.splitButton];
     if (self.player.fund >= self.betPot) {
         [self.doubleButton setIsEnabled:NO];
         self.player.fund -= self.betPot;
@@ -272,45 +333,90 @@
 }
 
 - (void) dealerTurn: (id)sender {
-    //set player's turnFinished to YES
-    self.player.turnFinished = YES;
-    
-    if (self.player.busted) {
-        self.dealer.turnFinished = YES;
-    }
-    //dealer has to hit until 16
-    
-    else {
+    [self disableButton:self.splitButton];
+    if (!self.splitMode) {
+        //set player's turnFinished to YES
+        self.player.turnFinished = YES;
         
-        while (self.dealer.totalPoints < 16 || (self.dealer.totalPoints == 17 && self.dealer.containsAce == YES)) {
-            [self.dealer drawCard];
+        if (self.player.busted) {
+            self.dealer.turnFinished = YES;
         }
-        //chances
-        if (!self.dealer.turnFinished) {
-            if (self.dealer.totalPoints < 22) {
-                int probability = arc4random() % 100;
-                
-                BOOL a = (probability < 20) && (probability >=10);
-                BOOL b = probability < 3;
-                
-                if (self.dealer.totalPoints == 17) {
-                    if (a == YES) {
-                        [self.dealer drawCard];
-                    }
-                }
-                if (self.dealer.totalPoints <= 20) {
-                    if (b == YES) {
-                        [self.dealer drawCard];
-                    }
-                }
+        //dealer has to hit until 16
+        
+        else {
+            
+            while (self.dealer.totalPoints < 16 || (self.dealer.totalPoints == 17 && self.dealer.containsAce == YES)) {
+                [self.dealer drawCard:0];
             }
-            if (self.dealer.totalPoints > 21) {
-                self.dealer.turnFinished = YES;
-                self.dealer.busted = YES;
-            } else self.dealer.turnFinished = YES;
+            //chances
+            if (!self.dealer.turnFinished) {
+                if (self.dealer.totalPoints < 22) {
+                    int probability = arc4random() % 100;
+                    
+                    BOOL a = (probability < 20) && (probability >=10);
+                    BOOL b = probability < 3;
+                    
+                    if (self.dealer.totalPoints == 17) {
+                        if (a == YES) {
+                            [self.dealer drawCard:0];
+                        }
+                    }
+                    if (self.dealer.totalPoints <= 20) {
+                        if (b == YES) {
+                            [self.dealer drawCard:0];
+                        }
+                    }
+                }
+                if (self.dealer.totalPoints > 21) {
+                    self.dealer.turnFinished = YES;
+                    self.dealer.busted = YES;
+                } else self.dealer.turnFinished = YES;
+            }
         }
+        [self endGame];
+    } else if (!self.firstHandFinished) {
+        self.firstHandFinished = YES;
+    } else {
+        //set player's turnFinished to YES
+        self.player2.turnFinished = YES;
+        
+        if (self.player.busted && self.player2.busted) {
+            self.dealer.turnFinished = YES;
+        }
+        //dealer has to hit until 16
+        
+        else {
+            
+            while (self.dealer.totalPoints <= 16 || (self.dealer.totalPoints == 17 && self.dealer.containsAce == YES)) {
+                [self.dealer drawCard:0];
+            }
+            //chances
+            if (!self.dealer.turnFinished) {
+                if (self.dealer.totalPoints < 22) {
+                    int probability = arc4random() % 100;
+                    
+                    BOOL a = (probability < 20) && (probability >=10);
+                    BOOL b = probability < 3;
+                    
+                    if (self.dealer.totalPoints == 17) {
+                        if (a == YES) {
+                            [self.dealer drawCard:0];
+                        }
+                    }
+                    if (self.dealer.totalPoints <= 20) {
+                        if (b == YES) {
+                            [self.dealer drawCard:0];
+                        }
+                    }
+                }
+                if (self.dealer.totalPoints > 21) {
+                    self.dealer.turnFinished = YES;
+                    self.dealer.busted = YES;
+                } else self.dealer.turnFinished = YES;
+            }
+        }
+        [self endGame];
     }
-    [self endGame];
 }
 
 - (void) endGame {
@@ -325,13 +431,18 @@
 - (void)okButtonPressed:(id)sender {
     self.player.turnFinished = NO;
     self.player.busted = NO;
+    self.player2.turnFinished = NO;
+    self.player2.busted = NO;
     self.dealer.turnFinished = NO;
     self.dealer.busted = NO;
     self.dealer.containsAce = NO;
+    self.splitMode = NO;
+    self.firstHandFinished = NO;
     [self disableButton:self.okButton];
     [self.spriteBatchNode removeAllChildrenWithCleanup:YES];
     [self.player.cardHands removeAllObjects];
     [self.dealer.cardHands removeAllObjects];
+    [self.player2.cardHands removeAllObjects];
     self.totalPointsLabel.string = @"0";
     self.totalDealerPointsLabel.string = @"0";
     [self resetCardDeck];
@@ -361,33 +472,101 @@
     self.playerFundLabel.string = [NSString stringWithFormat:@"Fund: %d", self.player.fund];
     self.betPotLabel.string = [NSString stringWithFormat:@"Bet: %d", self.betPot];
     
-    BOOL playerFinished = self.player.turnFinished;
-    BOOL dealerFinished = self.dealer.turnFinished;
-    BOOL playerBusted = self.player.busted;
-    BOOL dealerBusted = self.dealer.busted;
-    
-    //determine current status of game
-    if (playerFinished && dealerFinished) {
-        if (playerBusted) {
-            self.gameStatusLabel.string = @"Player Lost...";
-            self.betPot = 0;
-        } else if (dealerBusted) {
-            self.gameStatusLabel.string = @"Player Won!";
-            self.player.fund += self.betPot * 2;
-            self.betPot = 0;
-        } else if (self.player.totalPoints == self.dealer.totalPoints) {
+    if (!self.splitMode) {
+        BOOL playerFinished = self.player.turnFinished;
+        BOOL dealerFinished = self.dealer.turnFinished;
+        BOOL playerBusted = self.player.busted;
+        BOOL dealerBusted = self.dealer.busted;
+        
+        //determine current status of game
+        if (playerFinished && dealerFinished) {
+            if (playerBusted) {
+                self.gameStatusLabel.string = @"Player Lost...";
+                self.betPot = 0;
+            } else if (dealerBusted) {
+                self.gameStatusLabel.string = @"Player Won!";
+                self.player.fund += self.betPot * 2;
+                self.betPot = 0;
+            } else if (self.player.totalPoints == self.dealer.totalPoints) {
+                self.gameStatusLabel.string = @"Push";
+                self.player.fund += self.betPot;
+                self.betPot = 0;
+            } else if (self.player.totalPoints > self.dealer.totalPoints) {
+                self.gameStatusLabel.string = @"Player Won!";
+                self.player.fund += self.betPot * 2;
+                self.betPot = 0;
+            } else if (self.player.totalPoints < self.dealer.totalPoints) {
+                self.gameStatusLabel.string = @"Player Lost...";
+                self.betPot = 0;
+            }
+        } else self.gameStatusLabel.string = @"Hit or Stand?";
+    } else if (self.firstHandFinished && self.player2.turnFinished && self.dealer.turnFinished) {
+        /*if (self.dealer.busted) {
+            if (!(self.player.busted && self.player2.busted)) {
+                self.gameStatusLabel.string = @"Player Won!";
+                self.player.fund += self.betPot * 2;
+                self.betPot = 0;
+            } else {
+                self.gameStatusLabel.string = @"Push";
+                self.player.fund += self.betPot;
+                self.betPot = 0;
+            }
+        } else {
+            if (self.player.busted) {
+                if (self.player2.busted) {
+                    self.gameStatusLabel.string = @"Player Lost...";
+                    self.betPot = 0;
+                } else if (self.player2.totalPoints > self.dealer.totalPoints) {
+                    self.gameStatusLabel.string = @"Push";
+                    self.player.fund += self.betPot;
+                    self.betPot = 0;
+                }
+            }
+            else if (self.dealer.totalPoints > self.player.totalPoints && self.dealer.totalPoints > self.player2.totalPoints) {
+                self.gameStatusLabel.string = @"Player Lost...";
+                self.betPot = 0;
+            } else if (self.player.totalPoints > self.dealer.totalPoints && self.player2.totalPoints > self.dealer.totalPoints) {
+                self.gameStatusLabel.string = @"Player Won!";
+                self.player.fund += self.betPot * 2;
+                self.betPot = 0;
+            } else {
+                self.gameStatusLabel.string = @"Push";
+                self.player.fund += self.betPot;
+                self.betPot = 0;
+            }
+        }*/
+        if (self.dealer.busted) {
+            if (!self.player.busted) {
+                self.gameScore += 1;
+            }
+            if (!self.player2.busted) {
+                self.gameScore +=1;
+            }
+        } else {
+            if ((self.dealer.totalPoints > self.player.totalPoints && !self.player.busted) || self.player.busted) {
+                self.gameScore -=1;
+            } else if (self.dealer.totalPoints < self.player.totalPoints) {
+                self.gameScore +=1;
+            }
+            if ((self.dealer.totalPoints > self.player2.totalPoints && !self.player2.busted) || self.player2.busted) {
+                self.gameScore -=1;
+            } else if (self.dealer.totalPoints < self.player2.totalPoints) {
+                self.gameScore +=1;
+            }
+        }
+        if (self.gameScore == 0) {
             self.gameStatusLabel.string = @"Push";
             self.player.fund += self.betPot;
             self.betPot = 0;
-        } else if (self.player.totalPoints > self.dealer.totalPoints) {
+        } else if (self.gameScore < 0) {
+            self.gameStatusLabel.string = @"Player Lost...";
+            self.betPot = 0;
+        } else {
             self.gameStatusLabel.string = @"Player Won!";
             self.player.fund += self.betPot * 2;
             self.betPot = 0;
-        } else if (self.player.totalPoints < self.dealer.totalPoints) {
-            self.gameStatusLabel.string = @"Player Lost...";
-            self.betPot = 0;
         }
-    } else self.gameStatusLabel.string = @"Hit or Stand?";
+    }
 }
 
 - (void) resetCardDeck {
@@ -398,7 +577,7 @@
     
     CGSize size = [[CCDirector sharedDirector] winSize];
     //default card position for all cards in deck
-    CGPoint cardPosition = ccp(size.width / 3, size.height / 4);
+    CGPoint cardPosition = ccp(size.width, size.height / 2);
     
     //add clubs cards to cardDeck[0] - cardDeck[12]
     for (int i = 0; i < 13; i++) {

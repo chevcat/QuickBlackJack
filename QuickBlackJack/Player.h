@@ -14,9 +14,15 @@
 @property (nonatomic, strong) NSMutableArray *cardHands;
 @property (nonatomic, weak) GameLayer *layer;
 @property (nonatomic, assign) NSInteger totalPoints;
+@property (nonatomic, assign) NSInteger totalPointsOfSecondHand;
+@property (nonatomic, assign) NSInteger splitModeStatus;
+//@property (nonatomic, assign) NSInteger totalPointsForCardHand2;
 @property (nonatomic, assign) BOOL busted;
 @property (nonatomic, assign) BOOL turnFinished;
+
+
 //designated initializer
 - (id) initWithLayer:(GameLayer *)layer;
-- (void) drawCard;
+- (void) drawCard: (float)delay;
+
 @end
